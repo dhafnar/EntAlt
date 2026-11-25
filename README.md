@@ -1,11 +1,10 @@
 # EntAlt
 
-Unofficial native Android client for **Entia** smart home systems, built with Jetpack Compose and dark Material Design 3.
+EntAlt is an unofficial native Android client for **Entia** smart home systems, built as a hobby project using coding agents (mostly from the Gemini 4 family) and not affiliated with or endorsed by Entia (**use at your own risk**).
 
 It works both as an app on Android phones and tablets and as a wall-mount unit app, where `1:1` (`480×480`) screens automatically switch to a dedicated clock-first screen (made for the wall-mounted unit used in **Židanov kvart**).
 
-> [!NOTE]
-> This is a hobby project built using coding agents, mostly from the Gemini 4 family. It is not affiliated with or endorsed by Entia. **Use it at your own risk.**
+Automated unit and UI checks were written and run alongside development, and the app itself has been manually tested and confirmed working.
 
 ## Previews
 
@@ -46,7 +45,7 @@ It works both as an app on Android phones and tablets and as a wall-mount unit a
 
 ```text
 .
-├── android/     # Native Android Gradle project (Kotlin + Jetpack Compose)
+├── android/     # Native Android Gradle project (Kotlin)
 ├── docs/        # Architecture plan, checkpoint notes, and legacy Swagger docs
 ├── output/apk/  # Packaged optimized APK and SHA-256 checksum
 ├── scripts/     # Local build and verification helper scripts
