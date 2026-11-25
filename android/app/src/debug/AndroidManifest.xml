@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity android:name=".PanelQaActivity" android:exported="false"
+            android:configChanges="screenSize|smallestScreenSize|density|orientation|locale|layoutDirection|fontScale|keyboardHidden|keyboard|screenLayout|uiMode" />
+    </application>
+</manifest>

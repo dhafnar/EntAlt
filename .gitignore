@@ -1,0 +1,16 @@
+.DS_Store
+.venv/
+.idea/
+*.iml
+*.hprof
+android/.gradle/
+android/.gradle-user-home/
+android/.kotlin/
+android/**/build/
+android/core-check/
+android/local.properties
+*.jks
+*.keystore
+output/qa/
+reference/
+AGENTS.md

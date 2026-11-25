@@ -1,0 +1,2099 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Entia API V1"
+  },
+  "servers": [
+    {
+      "url": "https://api.entia.si"
+    },
+    {
+      "url": "http://localhost:8083"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "User Authentication returning a JWT.",
+        "description": "Authenticate a user.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "description": "Credentials and device info",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Creds"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returned JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError2"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get current user",
+        "description": "User with admin=1 flag, can manage flat accounts",
+        "responses": {
+          "200": {
+            "description": "User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user preferences",
+        "description": "Update user preferences",
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "description": "User preferences",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPref"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User preferences",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError2"
+          }
+        }
+      }
+    },
+    "/user/password": {
+      "put": {
+        "summary": "Change password",
+        "description": "Password",
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "description": "New password (min. 6 characters)",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed"
+          },
+          "400": {
+            "$ref": "#/components/responses/UnauthorizedError2"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/user/password/reset": {
+      "put": {
+        "summary": "Send reset password email (NOT IMPLEMENTED)",
+        "description": "Reset password",
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "description": "New password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {}
+        }
+      }
+    },
+    "/admin/account": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get all flat accounts",
+        "description": "Admin user can manage flat accounts",
+        "responses": {
+          "200": {
+            "description": "Flat accounts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfFlatAccounts"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create flat account",
+        "description": "Create new account",
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "description": "Account preferences.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlatAccountEdit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Flat account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatAccount"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError2"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update flat account",
+        "description": "Update basic account info (name, email), device permissions. Can block account (enabled=false).",
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "description": "Account preferences. All fields are optional.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlatAccountEdit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Flat account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatAccount"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError2"
+          }
+        }
+      }
+    },
+    "/admin/account/{accountId}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get single flat account",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "accountId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the account to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flat account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatAccount"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Delete flat account",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "accountId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the account to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/notification": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get all flat notifications",
+        "responses": {
+          "200": {
+            "description": "Flat notification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfFlatNotifications"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/notification/config": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get notifications configuration",
+        "responses": {
+          "200": {
+            "description": "Notification configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatNotificationConfig"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Update notifications configuration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlatNotificationConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated notification config",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatNotificationConfig"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/notification/push": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Add push device",
+        "responses": {
+          "200": {
+            "description": "Push device configiguration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PushConfig"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Delete push device",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushConfigDelete"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notification/{notificationId}": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get single notification",
+        "description": "Also as WebSocket event 'notification'",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "notificationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the notification to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatNotification"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Confirm notification",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "notificationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the notification to confirm"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatNotification"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Delete notification",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "notificationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the notification to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatNotification"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get flat definition",
+        "responses": {
+          "200": {
+            "description": "Flat definition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Flat"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/document": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get flat documents (NOT IMPLEMENTED)",
+        "responses": {
+          "200": {
+            "description": "List of flat documents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfDocuments"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/config": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get flat device configs (NOT IMPLEMENTED)",
+        "responses": {
+          "200": {
+            "description": "Device types and rooms types configs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatConfig"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get flat and device states",
+        "description": "Connection state is also received as a WebSocket event 'flat_connection'",
+        "responses": {
+          "200": {
+            "description": "Flat and devices states",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatState"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device?data=1": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get flat and device states including extended device data",
+        "responses": {
+          "200": {
+            "description": "Get flat and device states including extended device data (see ScenesData and SchedulesData)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlatStateExtended"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device/history": {
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get device attributes history (NOT IMPLEMENTED)",
+        "requestBody": {
+          "description": "Get history for multiple device attributes according to aggregate function",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Attributes history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfDataPoints"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device/history/export": {
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Export device attribute history",
+        "requestBody": {
+          "description": "Export history single device attribute",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportHistoryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Attribute history",
+            "content": {
+              "text/csv": {}
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device/{deviceId}": {
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Rename device (NOT IMPLEMENTED)",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device to rename"
+          }
+        ],
+        "requestBody": {
+          "description": "New name",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewName"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flat/device/{deviceId}?data=1": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get single device state including extended device data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device states",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceStateExtended"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device/{deviceId}/data": {
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Set device extended data (schedule, HMI scenes)",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device"
+          }
+        ],
+        "requestBody": {
+          "description": "(see ScenesData and SchedulesData)",
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/flat/device/{deviceId}/attribute/{attributeId}/rt": {
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Set single device attribute value (realtime variant, experimental!)",
+        "description": "Response containing only status, not attribute state. New state should be received via WS.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device"
+          },
+          {
+            "in": "path",
+            "name": "attributeId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the attribute to set"
+          }
+        ],
+        "requestBody": {
+          "description": "Attribute value",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAttributeSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device attribute state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeSetting"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device/{deviceId}/attribute/{attributeId}": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get single device attribute state",
+        "description": "Also as WebSocket event 'attribute_event'",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device to get"
+          },
+          {
+            "in": "path",
+            "name": "attributeId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the attribute to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device attribute state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeSetting"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Set single device attribute value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device"
+          },
+          {
+            "in": "path",
+            "name": "attributeId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the attribute to set"
+          }
+        ],
+        "requestBody": {
+          "description": "Attribute value",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAttributeSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device attribute state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeSetting"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/device/{deviceId}/setting/{settingId}": {
+      "get": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Get single device attribute state",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device to get"
+          },
+          {
+            "in": "path",
+            "name": "settingId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the setting to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device attribute state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeSetting"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Set single device setting value",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the device"
+          },
+          {
+            "in": "path",
+            "name": "settingId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the setting to set"
+          }
+        ],
+        "requestBody": {
+          "description": "Attribute value",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAttributeSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device attribute state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeSetting"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/flat/scene/{sceneCode}": {
+      "put": {
+        "tags": [
+          "Flat"
+        ],
+        "summary": "Rename scene (NOT IMPLEMENTED)",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sceneCode",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric code of the scene"
+          }
+        ],
+        "requestBody": {
+          "description": "New name",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewName"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    },
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Access token is missing or invalid"
+      },
+      "UnauthorizedError2": {
+        "description": "Invalid username/password"
+      }
+    },
+    "schemas": {
+      "AccountPermissions": {
+        "properties": {
+          "rooms": {
+            "type": "array",
+            "description": "Array of room ids. All devices in rooms will be available.",
+            "example": [
+              123,
+              124,
+              144
+            ],
+            "items": {
+              "type": "integer"
+            }
+          },
+          "devices": {
+            "type": "array",
+            "description": "Array of device ids",
+            "example": [
+              5123,
+              5126,
+              5127,
+              5129
+            ],
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "FlatAccount": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cdb2372e-cb3f-4d94-a4d7-438ca83ebe98"
+          },
+          "email": {
+            "type": "string",
+            "example": "account.mail@mail.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "Account name"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/AccountPermissions"
+          }
+        }
+      },
+      "FlatAccountEdit": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "optional": true
+          },
+          "name": {
+            "type": "string",
+            "optional": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/AccountPermissions"
+          }
+        }
+      },
+      "ArrayOfFlatAccounts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/FlatAccount"
+        }
+      },
+      "User": {
+        "properties": {
+          "notifications": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "emails": {
+                  "type": "array",
+                  "description": "List of emails.",
+                  "example": [
+                    "email1@mail.com",
+                    "email2@mail.com"
+                  ]
+                },
+                "phone_numbers": {
+                  "type": "array",
+                  "description": "List of phone numbers.",
+                  "example": [
+                    "0038631232323",
+                    "0038631421612"
+                  ]
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "object",
+            "description": "Any app related data can be saved here."
+          },
+          "admin": {
+            "type": "integer",
+            "description": "User with admin=true can manage flat accounts"
+          }
+        }
+      },
+      "UserPref": {
+        "properties": {
+          "notifications": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "emails": {
+                  "type": "array",
+                  "description": "List of emails.",
+                  "example": [
+                    "email1@mail.com",
+                    "email2@mail.com"
+                  ]
+                },
+                "phone_numbers": {
+                  "type": "array",
+                  "description": "List of phone numbers.",
+                  "example": [
+                    "0038631232323",
+                    "0038631421612"
+                  ]
+                }
+              }
+            }
+          },
+          "data": {
+            "type": "object",
+            "description": "Any app related data can be saved here."
+          }
+        }
+      },
+      "ChangePassword": {
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "ResetPassword": {
+        "properties": {
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "Flat": {
+        "properties": {
+          "flat": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "city": {
+                "$ref": "#/components/schemas/City"
+              },
+              "floors": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Floor"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Floor": {
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Room"
+            }
+          }
+        }
+      },
+      "Room": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "type": {
+            "type": "number"
+          },
+          "label": {
+            "type": "string"
+          },
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Device"
+            }
+          },
+          "scenes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Scene"
+            }
+          }
+        }
+      },
+      "Device": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "type": {
+            "type": "number"
+          },
+          "subtype": {
+            "type": "number"
+          },
+          "label": {
+            "type": "string"
+          },
+          "isFlatDevice": {
+            "type": "number"
+          }
+        }
+      },
+      "Scene": {
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      },
+      "City": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "weather_code": {
+            "type": "string"
+          },
+          "time_zone": {
+            "type": "string"
+          },
+          "time_zone_code": {
+            "type": "string"
+          }
+        }
+      },
+      "Creds": {
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "device_model": {
+            "type": "string"
+          },
+          "device_serial": {
+            "type": "string"
+          }
+        }
+      },
+      "FlatState": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "connected": {
+            "type": "integer"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceState"
+            }
+          },
+          "account": {
+            "properties": {
+              "data": {
+                "properties": {
+                  "cams": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Cam"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "FlatStateExtended": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "connected": {
+            "type": "integer"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceStateExtended"
+            }
+          },
+          "data": {
+            "type": "object"
+          },
+          "account": {
+            "properties": {
+              "data": {
+                "properties": {
+                  "cams": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Cam"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeviceState": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "device_type_id": {
+            "type": "integer"
+          },
+          "room_id": {
+            "type": "integer"
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttributeSetting"
+            }
+          },
+          "settings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttributeSetting"
+            }
+          }
+        }
+      },
+      "DeviceStateExtended": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "device_type_id": {
+            "type": "integer"
+          },
+          "room_id": {
+            "type": "integer"
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttributeSetting"
+            }
+          },
+          "settings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttributeSetting"
+            }
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "AttributeSetting": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "type": "integer"
+          },
+          "value": {
+            "type": "integer"
+          }
+        }
+      },
+      "SetAttributeSetting": {
+        "properties": {
+          "value": {
+            "type": "integer"
+          }
+        }
+      },
+      "Token": {
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "DeviceAttributeConfig": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "units": {
+            "type": "string"
+          },
+          "code": {
+            "type": "number"
+          },
+          "data_size": {
+            "type": "number"
+          },
+          "scene_attribute": {
+            "type": "number"
+          },
+          "min_value": {
+            "type": "number"
+          },
+          "max_value": {
+            "type": "number"
+          },
+          "invalid_value": {
+            "type": "number"
+          },
+          "panel_accessible": {
+            "type": "number"
+          },
+          "panel_writable": {
+            "type": "number"
+          },
+          "panel_chart": {
+            "type": "number"
+          },
+          "enabled": {
+            "type": "number"
+          }
+        }
+      },
+      "ArrayOfDeviceAttributeConfigs": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DeviceAttributeConfig"
+        }
+      },
+      "DeviceSettingConfig": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "units": {
+            "type": "string"
+          },
+          "code": {
+            "type": "number"
+          },
+          "data_size": {
+            "type": "number"
+          },
+          "min_value": {
+            "type": "number"
+          },
+          "max_value": {
+            "type": "number"
+          },
+          "invalid_value": {
+            "type": "number"
+          },
+          "panel_accessible": {
+            "type": "number"
+          },
+          "panel_writable": {
+            "type": "number"
+          },
+          "enabled": {
+            "type": "number"
+          }
+        }
+      },
+      "ArrayOfDeviceSettingConfigs": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DeviceSettingConfig"
+        }
+      },
+      "DeviceTypeConfig": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "number"
+          },
+          "panel_accessible": {
+            "type": "number"
+          },
+          "panel_writable": {
+            "type": "number"
+          },
+          "enabled": {
+            "type": "number"
+          },
+          "subtypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamedEntity"
+            }
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArrayOfDeviceAttributeConfigs"
+            }
+          },
+          "settings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArrayOfDeviceSettingConfigs"
+            }
+          }
+        }
+      },
+      "FlatConfig": {
+        "properties": {
+          "device_types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceTypeConfig"
+            }
+          },
+          "room_types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamedEntity"
+            }
+          },
+          "scenes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamedEntity"
+            }
+          }
+        }
+      },
+      "NamedEntity": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "NewName": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfNamedEntities": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/NamedEntity"
+        }
+      },
+      "DeviceAttributePair": {
+        "properties": {
+          "device_id": {
+            "type": "integer"
+          },
+          "attribute_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "Aggregator": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "mean",
+              "sum",
+              "min",
+              "max"
+            ],
+            "example": "avg"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "s",
+              "m",
+              "h",
+              "d"
+            ],
+            "example": "h"
+          },
+          "value": {
+            "type": "number",
+            "example": 12
+          }
+        }
+      },
+      "HistoryRequest": {
+        "properties": {
+          "from": {
+            "type": "number",
+            "description": "Unix timestamp",
+            "example": 475272800000
+          },
+          "to": {
+            "type": "number",
+            "description": "Unix timestamp",
+            "example": 475272800000
+          },
+          "device_attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceAttributePair"
+            }
+          },
+          "aggregator": {
+            "$ref": "#/components/schemas/Aggregator"
+          }
+        }
+      },
+      "ExportHistoryRequest": {
+        "properties": {
+          "from": {
+            "type": "number",
+            "description": "Unix timestamp",
+            "example": 475272800000
+          },
+          "to": {
+            "type": "number",
+            "description": "Unix timestamp",
+            "example": 475272800000
+          },
+          "device_attribute": {
+            "$ref": "#/components/schemas/DeviceAttributePair"
+          }
+        }
+      },
+      "DataPoint": {
+        "properties": {
+          "ts": {
+            "type": "integer",
+            "description": "Unix timestamp",
+            "example": 1643957591
+          },
+          "val": {
+            "type": "number",
+            "example": 23
+          }
+        }
+      },
+      "ArrayOfDataPoints": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DataPoint"
+        }
+      },
+      "Document": {
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "example": "2022-02-23 13:54:22"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2022-02-27 06:24:21"
+          },
+          "name": {
+            "type": "string",
+            "example": "Floorplan.pdf"
+          },
+          "type": {
+            "type": "string",
+            "example": "pdf"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://doc.entia.si/documents/07c029b4dd72762e3e233fda20ce0139.pdf"
+          }
+        }
+      },
+      "Cam": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Kamera vhod 1"
+          },
+          "url": {
+            "type": "string",
+            "example": "http://my.security.com/cam1"
+          },
+          "enabled": {
+            "type": "integer",
+            "example": "1"
+          }
+        }
+      },
+      "ArrayOfDocuments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Document"
+        }
+      },
+      "SeverityLevelConfig": {
+        "properties": {
+          "severity_level": {
+            "type": "number",
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "example": 3
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "FlatNotificationConfig": {
+        "properties": {
+          "sms": {
+            "$ref": "#/components/schemas/SeverityLevelConfig"
+          },
+          "email": {
+            "$ref": "#/components/schemas/SeverityLevelConfig"
+          },
+          "push": {
+            "$ref": "#/components/schemas/SeverityLevelConfig"
+          }
+        }
+      },
+      "FlatNotification": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6b728b7007576cd6a04631b04994f069"
+          },
+          "title": {
+            "type": "string",
+            "example": "Flood alarm"
+          },
+          "message": {
+            "type": "string",
+            "example": "Flood in living room"
+          },
+          "severity_level": {
+            "type": "number",
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "example": 3
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2022-06-03T10:34:21.000Z"
+          },
+          "confirmed_at": {
+            "type": "string",
+            "example": "2022-06-03T12:07:03.000Z"
+          },
+          "sent_to": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SentNotification"
+            }
+          }
+        }
+      },
+      "ArrayOfFlatNotifications": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/FlatNotification"
+        }
+      },
+      "SentNotification": {
+        "properties": {
+          "channel": {
+            "type": "string",
+            "description": "Channel tyoe",
+            "enum": [
+              "email",
+              "sms",
+              "push"
+            ],
+            "example": "sms"
+          },
+          "destination": {
+            "type": "string",
+            "example": "0038641922162"
+          }
+        }
+      },
+      "PushConfig": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "OneSignal token"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "ios",
+              "android"
+            ],
+            "example": "android"
+          },
+          "app": {
+            "type": "string",
+            "enum": [
+              "entia",
+              "duol"
+            ],
+            "example": "entia"
+          },
+          "device_uuid": {
+            "type": "string",
+            "example": "b728b7007576cd6"
+          },
+          "device_model": {
+            "type": "string",
+            "example": "A10"
+          },
+          "platform_version": {
+            "type": "string",
+            "example": "Android 10"
+          },
+          "device_manufacturer": {
+            "type": "string",
+            "example": "Samsung"
+          }
+        }
+      },
+      "PushConfigDelete": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "OneSignal token"
+          }
+        }
+      },
+      "SceneData": {
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "12"
+          },
+          "device": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": "6012"
+                },
+                "type": {
+                  "type": "number",
+                  "example": "6"
+                },
+                "attribute": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "example": "1"
+                      },
+                      "val": {
+                        "type": "number",
+                        "example": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ScenesData": {
+        "properties": {
+          "scene": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SceneData"
+            }
+          }
+        }
+      },
+      "ScheduleData": {
+        "properties": {
+          "d": {
+            "type": "number",
+            "example": "0",
+            "description": "Regime part of the day max 6."
+          },
+          "regime": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "r": {
+                  "type": "number",
+                  "example": "0",
+                  "description": "Ordinal index of regime 0-6"
+                },
+                "f": {
+                  "type": "number",
+                  "example": "480",
+                  "description": "From time part of the regime (minutes since midnight)"
+                },
+                "t": {
+                  "type": "number",
+                  "example": "1260",
+                  "description": "To time part of the regime (minutes since midnight)"
+                },
+                "v": {
+                  "type": "number",
+                  "example": "100",
+                  "description": "Value of the regime (target device attribute value)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SchedulesData": {
+        "properties": {
+          "day": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleData"
+            }
+          }
+        }
+      }
+    }
+  }
+}

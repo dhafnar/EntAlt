@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:configure="si.hafnar.entalt.widget.EntAltWidgetConfigureActivity"
+    android:description="@string/widget_description"
+    android:initialLayout="@layout/entalt_widget_root"
+    android:previewLayout="@layout/entalt_widget_preview"
+    tools:targetApi="s"
+    android:minWidth="56dp"
+    android:minHeight="56dp"
+    android:minResizeWidth="56dp"
+    android:minResizeHeight="56dp"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable" />
