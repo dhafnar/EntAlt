@@ -9,9 +9,13 @@ It works both as an app on Android phones and tablets and as a wall-mount unit a
 
 ## Previews
 
-| Wall-Mount Unit (`480×480`) | Pixel Phone (Room Controls) | Pixel Phone (Rooms Overview) |
-| --- | --- | --- |
-| ![Wall-mount unit](store/previews/wall-panel-clock.jpg) | ![Pixel phone room controls](store/previews/pixel-phone-room.png) | ![Pixel phone rooms overview](store/previews/pixel-phone-rooms.png) |
+| Wall-Mount Unit (`480×480`) | Wall-Mount Unit (Settings) |
+| --- | --- |
+| ![Wall-mount unit](store/previews/wall-panel-clock.jpg) | ![Wall-mount settings](store/previews/wall-panel-settings.png) |
+
+| Pixel Phone (Room Controls) | Pixel Phone (Rooms Overview) |
+| --- | --- |
+| ![Pixel phone room controls](store/previews/pixel-phone-room.png) | ![Pixel phone rooms overview](store/previews/pixel-phone-rooms.png) |
 
 ## Installation & Sign-In
 
