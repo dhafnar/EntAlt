@@ -7,6 +7,16 @@ It works both as an app on Android phones and tablets and as a wall-mount unit a
 > [!NOTE]
 > This is a hobby project built using coding agents, mostly from the Gemini 4 family. It is not affiliated with or endorsed by Entia. **Use it at your own risk.**
 
+## Previews
+
+| Wall-Mount Unit (`480×480` Landing) | Wall-Mount Unit (`480×480` Controls) |
+| --- | --- |
+| ![Wall-mount clock screen](store/previews/wall-panel-clock.png) | ![Wall-mount room controls](store/previews/wall-panel-room.png) |
+
+| Pixel Phone (Room Controls) | Pixel Phone (Rooms Overview) |
+| --- | --- |
+| ![Pixel phone room controls](store/previews/pixel-phone-room.png) | ![Pixel phone rooms overview](store/previews/pixel-phone-rooms.png) |
+
 ## Installation & Sign-In
 
 1. Download [`output/apk/EntAlt-0.13.0-optimized.apk`](output/apk/EntAlt-0.13.0-optimized.apk) (Android 8.0 / API 26+, R8-minified, development-signed; SHA-256 in [`output/apk/EntAlt-0.13.0-optimized.apk.sha256`](output/apk/EntAlt-0.13.0-optimized.apk.sha256): `258af36f56d1ce4ccb77c7515c17e2029aeb9c4ac85fb79d9007c758365c160c`).
