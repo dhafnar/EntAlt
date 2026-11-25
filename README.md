@@ -25,11 +25,11 @@ Mind that as a hobby project, the codebase has not been manually reviewed and th
 
 | Wall-Mount Unit (`480×480`) | Wall-Mount Unit (Settings) |
 | --- | --- |
-| ![Wall-mount unit](store/previews/wall-panel-clock.jpg) | ![Wall-mount settings](store/previews/wall-panel-settings.png) |
+| ![Wall-mount unit](docs/previews/wall-panel-clock.jpg) | ![Wall-mount settings](docs/previews/wall-panel-settings.png) |
 
 | Pixel Phone (Room Controls) | Pixel Phone (Rooms Overview) |
 | --- | --- |
-| ![Pixel phone room controls](store/previews/pixel-phone-room.png) | ![Pixel phone rooms overview](store/previews/pixel-phone-rooms.png) |
+| ![Pixel phone room controls](docs/previews/pixel-phone-room.png) | ![Pixel phone rooms overview](docs/previews/pixel-phone-rooms.png) |
 
 ## Features
 
@@ -49,10 +49,9 @@ Mind that as a hobby project, the codebase has not been manually reviewed and th
 ```text
 .
 ├── android/     # Native Android Gradle project (Kotlin)
-├── docs/        # Architecture plan, checkpoint notes, and legacy Swagger docs
+├── docs/        # Architecture plan, checkpoint notes, previews, and legacy Swagger docs
 ├── output/apk/  # Packaged optimized APK and SHA-256 checksum
-├── scripts/     # Local build and verification helper scripts
-└── store/       # App icon and feature graphic assets
+└── scripts/     # Local build and verification helper scripts
 ```
 
 ## Building from Source
