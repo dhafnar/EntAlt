@@ -6,6 +6,21 @@ It works both as an app on Android phones and tablets and as a wall-mount unit a
 
 Mind that as a hobby project, the codebase has not been manually reviewed and the automated tests were also written and run by the coding agents, while the built app itself has been manually tested and confirmed working.
 
+## Download & Installation
+
+> [!IMPORTANT]
+> **[Download EntAlt 0.13.0 APK (`EntAlt-0.13.0-optimized.apk`)](output/apk/EntAlt-0.13.0-optimized.apk)**
+> Android 8.0+ (API 26), R8-minified, development-signed · [`SHA-256`](output/apk/EntAlt-0.13.0-optimized.apk.sha256): `258af36f56d1ce4ccb77c7515c17e2029aeb9c4ac85fb79d9007c758365c160c`
+
+1. Download the APK above onto your Android device or wall-mounted unit and open it to install (allow installs from unknown sources if prompted), or install over ADB:
+   ```sh
+   adb install -r output/apk/EntAlt-0.13.0-optimized.apk
+   ```
+2. Launch EntAlt and sign in using the **username and password assigned to you by Entia** (or choose **Explore the demo home** to preview the interface offline).
+
+> [!TIP]
+> To transfer the `.apk` file wirelessly to the wall-mounted unit, you can use the **Send files to TV** app from the Google Play Store.
+
 ## Previews
 
 | Wall-Mount Unit (`480×480`) | Wall-Mount Unit (Settings) |
@@ -15,18 +30,6 @@ Mind that as a hobby project, the codebase has not been manually reviewed and th
 | Pixel Phone (Room Controls) | Pixel Phone (Rooms Overview) |
 | --- | --- |
 | ![Pixel phone room controls](store/previews/pixel-phone-room.png) | ![Pixel phone rooms overview](store/previews/pixel-phone-rooms.png) |
-
-## Installation & Sign-In
-
-1. Download [`output/apk/EntAlt-0.13.0-optimized.apk`](output/apk/EntAlt-0.13.0-optimized.apk) (Android 8.0 / API 26+, R8-minified, development-signed; SHA-256 in [`output/apk/EntAlt-0.13.0-optimized.apk.sha256`](output/apk/EntAlt-0.13.0-optimized.apk.sha256): `258af36f56d1ce4ccb77c7515c17e2029aeb9c4ac85fb79d9007c758365c160c`).
-2. Install it directly on your Android device or wall-mounted unit (allow installs from unknown sources if prompted), or install over ADB:
-   ```sh
-   adb install -r output/apk/EntAlt-0.13.0-optimized.apk
-   ```
-3. Launch EntAlt and sign in using the **username and password assigned to you by Entia** (or choose **Explore the demo home** to preview the interface offline).
-
-> [!TIP]
-> To transfer the `.apk` file wirelessly to the wall-mounted unit, you can use the **Send files to TV** app from the Google Play Store.
 
 ## Features
 
