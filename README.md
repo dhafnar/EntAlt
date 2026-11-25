@@ -4,7 +4,7 @@ EntAlt is an unofficial native Android client for **Entia** smart home systems, 
 
 It works both as an app on Android phones and tablets and as a wall-mount unit app, where `1:1` (`480×480`) screens automatically switch to a dedicated clock-first screen (made for the wall-mounted unit used in **Židanov kvart**).
 
-Automated unit and UI checks were written and run alongside development, and the app itself has been manually tested and confirmed working.
+As a hobby project, the codebase has not been manually reviewed and the automated tests were also written and run by the coding agents, while the built app itself has been manually tested and confirmed working.
 
 ## Previews
 
