@@ -11,7 +11,7 @@ It works both as an app on Android phones and tablets and as a wall-mount unit a
 
 | Wall-Mount Unit (`480×480` Landing) | Wall-Mount Unit (`480×480` Controls) |
 | --- | --- |
-| ![Wall-mount clock screen](store/previews/wall-panel-clock.png) | ![Wall-mount room controls](store/previews/wall-panel-room.png) |
+| ![Wall-mount clock screen](store/previews/wall-panel-clock.jpg) | ![Wall-mount room controls](store/previews/wall-panel-room.png) |
 
 | Pixel Phone (Room Controls) | Pixel Phone (Rooms Overview) |
 | --- | --- |
