@@ -26,6 +26,9 @@ It works both as an app on Android phones and tablets and as a wall-mount unit a
    ```
 3. Launch EntAlt and sign in using the **username and password assigned to you by Entia** (or choose **Explore the demo home** to preview the interface offline).
 
+> [!TIP]
+> To transfer the `.apk` file wirelessly to the wall-mounted unit, you can use the **Send files to TV** app from the Google Play Store.
+
 ## Features
 
 - **Android Phone, Tablet & Widget**:
